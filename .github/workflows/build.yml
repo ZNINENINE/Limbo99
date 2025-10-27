@@ -36,8 +36,9 @@ jobs:
       - name: Build with Gradle
         run: gradle clean jar
 
-      - name: 📦 Publicar o arquivo .jar como artefato
+      - name: 📦 Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: Limbo99
           path: build/libs/*.jar
+          if-no-files-found: error
