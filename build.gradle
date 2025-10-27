@@ -5,12 +5,12 @@ plugins {
 
 group = 'me.limbo99'
 version = '1.0.0'
-description = 'Limbo99 plugin for Paper 1.21.1'
 
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
+    withSourcesJar()
 }
 
 repositories {
@@ -22,52 +22,30 @@ repositories {
 }
 
 dependencies {
-    // Paper API
     compileOnly 'io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT'
-
-    // Adventure API para Component.text()
-    compileOnly 'net.kyori:adventure-api:4.14.0'
-    compileOnly 'net.kyori:adventure-text-minimessage:4.14.0'
 }
 
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
-}
-
-tasks.named('jar', Jar) {
-    // evita conflito entre jar e shadowJar
-    enabled = false
-}
-
-tasks.named('shadowJar', com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+tasks.jar {
     archiveBaseName.set('Limbo99')
-    archiveVersion.set('1.0.0')
-    archiveClassifier.set('') // gera Limbo99-1.0.0.jar direto, sem "-all"
+    archiveVersion.set(project.version)
+    manifest {
+        attributes(
+            'Implementation-Title': project.name,
+            'Implementation-Version': project.version,
+            'Main-Class': 'me.limbo99.Limbo99'
+        )
+    }
+    from('src/main/resources') {
+        include 'plugin.yml'
+    }
+}
 
-    // EVITA o erro de META-INF duplicado
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-
-    // Remove assinaturas e arquivos desnecessários
-    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA'
-
-    // Corrige mesclagem de arquivos de serviço (opcional, mas recomendado)
+tasks.shadowJar {
+    archiveBaseName.set('Limbo99')
+    archiveVersion.set(project.version)
     mergeServiceFiles()
 }
 
-tasks.build {
-    dependsOn tasks.shadowJar
-}
-
-tasks.named('shadowJar', com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
-    archiveBaseName.set('Limbo99')
-    archiveVersion.set('1.0.0')
-    archiveClassifier.set('')
-
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA'
-    mergeServiceFiles()
-
-    // ✅ Corrige erro de propriedade "mode"
-    zip64 = true
-    includeEmptyDirs = false
+tasks.register('buildPlugin') {
+    dependsOn('clean', 'shadowJar')
 }
