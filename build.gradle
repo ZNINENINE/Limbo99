@@ -25,10 +25,8 @@ dependencies {
     // Paper API
     compileOnly 'io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT'
 
-    // Adventure API (para o Component.text)
+    // Adventure API para Component.text()
     compileOnly 'net.kyori:adventure-api:4.14.0'
-
-    // Opcional: Se quiser usar MiniMessage ou formatos de texto
     compileOnly 'net.kyori:adventure-text-minimessage:4.14.0'
 }
 
@@ -36,16 +34,12 @@ tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
-jar {
-    manifest {
-        attributes(
-            'Main-Class': 'me.limbo99.Limbo99'
-            
+tasks.named('jar', Jar) {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    archiveBaseName.set('Limbo99')
+}
+
 tasks.named('shadowJar', com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-
-
-            )
-        }
-    }
+    archiveClassifier.set('')
 }
