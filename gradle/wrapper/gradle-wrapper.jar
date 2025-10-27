@@ -1,1 +1,5 @@
-
+org/gradle/wrapper/GradleWrapperMain.class
+org/gradle/wrapper/Download.class
+org/gradle/wrapper/Install.class
+org/gradle/wrapper/PathAssembler.class
+org/gradle/wrapper/SystemPropertiesHandler.class
