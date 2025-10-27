@@ -57,3 +57,17 @@ tasks.named('shadowJar', com.github.jengelman.gradle.plugins.shadow.tasks.Shadow
 tasks.build {
     dependsOn tasks.shadowJar
 }
+
+tasks.named('shadowJar', com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+    archiveBaseName.set('Limbo99')
+    archiveVersion.set('1.0.0')
+    archiveClassifier.set('')
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA'
+    mergeServiceFiles()
+
+    // ✅ Corrige erro de propriedade "mode"
+    zip64 = true
+    includeEmptyDirs = false
+}
