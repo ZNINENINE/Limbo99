@@ -5,28 +5,41 @@ plugins {
 
 group = 'me.limbo99'
 version = '1.0.0'
-
-repositories {
-    mavenCentral()
-    maven { url = uri('https://hub.spigotmc.org/nexus/content/repositories/snapshots/') }
-}
-
-dependencies {
-    compileOnly 'org.spigotmc:spigot-api:1.21.1-R0.1-SNAPSHOT'
-}
+description = 'Limbo99 plugin for Paper 1.21.1'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
-tasks.withType(JavaCompile) {
+repositories {
+    mavenCentral()
+    maven {
+        name = 'papermc-repo'
+        url = 'https://repo.papermc.io/repository/maven-public/'
+    }
+}
+
+dependencies {
+    // Paper API
+    compileOnly 'io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT'
+
+    // Adventure API (para o Component.text)
+    compileOnly 'net.kyori:adventure-api:4.14.0'
+
+    // Opcional: Se quiser usar MiniMessage ou formatos de texto
+    compileOnly 'net.kyori:adventure-text-minimessage:4.14.0'
+}
+
+tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
-shadowJar {
-    archiveBaseName.set('Limbo99')
-    archiveClassifier.set('')
-    archiveVersion.set(project.version)
+jar {
+    manifest {
+        attributes(
+            'Main-Class': 'me.limbo99.Limbo99'
+        )
+    }
 }
