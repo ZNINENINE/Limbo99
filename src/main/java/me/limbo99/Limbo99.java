@@ -158,10 +158,13 @@ public class Limbo99 extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent e) {
-        Player p = e.getEntity();
-        Bukkit.getScheduler().runTaskLater(this, () -> punishPlayer(p), 1L); // small delay to allow respawn
+    public void onPlayerRespawn(PlayerRespawnEvent e) {
+        Player p = e.getPlayer();
+
+        // Aplica punição ao respawnar
+        Bukkit.getScheduler().runTaskLater(this, () -> punishPlayer(p), 5L);
     }
+
 
     private void punishPlayer(Player p) {
         punishedPlayers.put(p.getUniqueId(), System.currentTimeMillis());
