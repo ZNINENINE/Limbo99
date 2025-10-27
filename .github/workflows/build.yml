@@ -36,3 +36,8 @@ jobs:
       - name: Build with Gradle
         run: gradle clean jar
 
+       - name: 📦 Publicar o arquivo .jar como artefato
+         uses: actions/upload-artifact@v4
+         with:
+           name: ModoMorte99
+           path: target/ModoMorte99-*.jar
