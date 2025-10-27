@@ -34,10 +34,11 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
 
       - name: Build with Gradle
-        run: gradle clean jar
+        run: gradle clean shadowJar
 
       - name: 📦 Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          path: path: build/libs/Limbo99/*.jar
+          name: Limbo99
+          path: build/libs/*.jar
           if-no-files-found: error
