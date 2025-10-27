@@ -229,8 +229,11 @@ public class Limbo99 extends JavaPlugin implements Listener {
 
                     if (p != null) {
                         if (cfg.getBoolean("features.actionbar")) {
-                            p.sendActionBar(String.format("Tempo restante: %02dh %02dm %02ds", hours, minutes, sec));
-                        }
+                            p.sendActionBar(
+                               net.kyori.adventure.text.Component.text(
+                                   String.format("Tempo restante: %02dh %02dm %02ds", hours, minutes, sec)
+                               )
+                           );
 
                         if (cfg.getBoolean("features.bossbar")) {
                             bossBar.setVisible(true);
