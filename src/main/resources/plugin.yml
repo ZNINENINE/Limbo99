@@ -1,0 +1,11 @@
+name: Limbo99
+version: 1.0.0
+main: me.limbo99.Limbo99
+api-version: 1.21
+commands:
+  limbo:
+    description: Comando principal do Limbo99. Subcomandos: setloc, free, reload, view, exitcam
+    usage: /limbo <subcomando>
+permissions:
+  limbo.admin:
+    default: op
