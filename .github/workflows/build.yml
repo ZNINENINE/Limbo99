@@ -34,7 +34,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
 
       - name: Build with Gradle
-        run: gradle clean shadowJar
+        run: ./gradlew clean shadowJar
 
       - name: 📦 Upload build artifact
         uses: actions/upload-artifact@v4
