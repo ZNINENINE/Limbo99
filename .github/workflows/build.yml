@@ -25,6 +25,9 @@ jobs:
       
     - name: Build with Gradle Wrapper
       run: ./gradlew shadowJar --no-daemon
+   
+    - name: Clean Gradle
+      run: ./gradlew clean shadowJar --no-daemon
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
