@@ -35,11 +35,25 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 tasks.named('jar', Jar) {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    archiveBaseName.set('Limbo99')
+    // evita conflito entre jar e shadowJar
+    enabled = false
 }
 
 tasks.named('shadowJar', com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+    archiveBaseName.set('Limbo99')
+    archiveVersion.set('1.0.0')
+    archiveClassifier.set('') // gera Limbo99-1.0.0.jar direto, sem "-all"
+
+    // EVITA o erro de META-INF duplicado
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    archiveClassifier.set('')
+
+    // Remove assinaturas e arquivos desnecessários
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA'
+
+    // Corrige mesclagem de arquivos de serviço (opcional, mas recomendado)
+    mergeServiceFiles()
+}
+
+tasks.build {
+    dependsOn tasks.shadowJar
 }
