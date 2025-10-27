@@ -22,6 +22,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import org.bukkit.Sound;
 import org.bukkit.Particle;
+import net.kyori.adventure.text.Component;
 
 import java.util.*;
 
