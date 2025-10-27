@@ -1,0 +1,36 @@
+name: Build Limbo99 (push)
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '21'
+
+    - name: Install Gradle (if not using wrapper)
+      run: sudo apt-get update && sudo apt-get install -y gradle
+
+    - name: Create Gradle Wrapper
+      run: gradle wrapper
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Build with Gradle Wrapper
+      run: ./gradlew shadowJar --no-daemon
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Limbo99-build
+        path: build/libs/*.jar
