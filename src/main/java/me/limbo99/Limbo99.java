@@ -162,8 +162,17 @@ public class Limbo99 extends JavaPlugin implements Listener {
     public void onPlayerRespawn(PlayerRespawnEvent e) {
         Player p = e.getPlayer();
 
-        // Aplica punição ao respawnar
-        Bukkit.getScheduler().runTaskLater(this, () -> punishPlayer(p), 5L);
+        // Se o jogador estava no The End, não aplicar punição
+        if (p.getWorld().getEnvironment() == World.Environment.THE_END) {
+            return;
+        }
+    
+        // Garante que só pune se o jogador realmente morreu
+        Bukkit.getScheduler().runTaskLater(this, () -> {
+            if (p.getLastDeathLocation() != null) { // só pune se teve morte registrada
+                punishPlayer(p);
+            }
+        }, 5L);
     }
 
 
